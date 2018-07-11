@@ -9,7 +9,7 @@ for (let key of devices) {
     <td>${key.Name}</td>
     </tr>`);   
 };
-
+// comment
 $('#add-device').on('click', function(){
     const user1 = $('#user').val();
     const name1 = $('#name').val()
