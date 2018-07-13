@@ -34,19 +34,19 @@ $('#RegisterLogin').on('click', function() {
     // if(localStorage.getItem(user))
     //     console.log("User Already Exists.");
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    const exists = users.find((user => user.Name === userName));
+    const exists = users.find((user => user.name === userName));
     if (exists){
-        $('#message').append('<p>User exists</p>');
+        $('#messageError').append('<p class="alert alert-danger" style="font-style: italic" >User already exists. Click <a href="/login">here</a> to login. </p>');
         
     }
     else if (password1 !== password2){
-        $('#message').append('<p>User exists</p>')
+        $('#passwordError').append('<p class="alert alert-danger" style="font-style: italic"> ERROR: Password does not match </p>')
     }
     else
     {
         users.push({name: userName, password: password2})
         localStorage.setItem('users', JSON.stringify(users));
-        location.href = "/login";
+        // location.href = "/login";
     }
    });
 
