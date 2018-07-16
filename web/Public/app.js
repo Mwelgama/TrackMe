@@ -1,25 +1,43 @@
 const devices = JSON.parse(localStorage.getItem('devices')) || [];
+const response = $.get('http://localhost:3001/devices')
+.then(response => {
+    for (let key of response) {
+    $('#devices tbody').append(`
+    <tr>
+    <td>${key.user}</td>
+    <td>${key.name}</td>
+    </tr>`);   
+};
+})
+.catch(error => {
+ console.log(`Error: ${error}`);
+});
+
+
 // const devices = [];
     // devices.push({User: "Mary", Name: "Mary's Phone"});
     // devices.push({User: "Alex", Name: "Alex's Surface Pro"});
     // devices.push({User: "Mary", Name: "Mary's Macbook"});
 
-for (let key of devices) {
-    $('#devices tbody').append(`
-    <tr>
-    <td>${key.User}</td>
-    <td>${key.Name}</td>
-    </tr>`);   
-};
+
 
 // commentdd
     $('#add-device').on('click', function(){
-    const user1 = $('#user').val();
-    const name1 = $('#name').val()
-    devices.push({User: user1, Name: name1})
-    localStorage.setItem('devices', JSON.stringify(devices));
-    console.log(devices);
-    location.href = "/"
+    const user = $('#user').val();
+    const name = $('#name').val()
+    const sensorData = [];
+    const body = {
+        name,
+        user,
+        sensorData
+    };
+    $.post('http://localhost:3001/devices', body)
+    .then(response => {
+        location.href = "/"
+    })
+    .catch(error => {
+        console.log(`Error: ${error}`);
+    });
     });
 
     $('#send-command').on('click', function() {
