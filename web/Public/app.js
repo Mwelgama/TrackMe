@@ -1,5 +1,6 @@
 const devices = JSON.parse(localStorage.getItem('devices')) || [];
-const response = $.get('http://localhost:3001/devices')
+const API_URL = 'http://localhost:5000/api';
+const response = $.get(`${API_URL}/devices`)
 .then(response => {
     for (let key of response) {
     $('#devices tbody').append(`
@@ -31,7 +32,7 @@ const response = $.get('http://localhost:3001/devices')
         user,
         sensorData
     };
-    $.post('http://localhost:3001/devices', body)
+    $.post(`${API_URL}/devices`, body)
     .then(response => {
         location.href = "/"
     })
