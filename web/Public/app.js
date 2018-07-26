@@ -1,5 +1,5 @@
 const devices = JSON.parse(localStorage.getItem('devices')) || [];
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://216122306-sit-209.now.sh/api';
 
 const currentUser = localStorage.getItem('user')
 if (currentUser) {
