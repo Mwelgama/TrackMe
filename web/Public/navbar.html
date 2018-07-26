@@ -14,7 +14,7 @@
     </div>
 </nav>
 <script>
-        const isAuthenticated = localStorage.getItem('isAuthenticated');
+        const isAuthenticated = localStorage.getItem('user');
         const logoutElement = '<a class="nav-item nav-link" onClick="logout()">Logout</a>';
         const loginElement = '<a class="nav-item nav-link" style="color:black" href="/login">Login</a>';
         if (isAuthenticated) {
@@ -22,5 +22,5 @@
         } else
         $('#auth-nav').append(loginElement);
         
-</script>
+</script>   
        
