@@ -1,4 +1,3 @@
-const devices = JSON.parse(localStorage.getItem('devices')) || [];
 const API_URL = 'https://216122306-sit-209.now.sh/api';
 
 const currentUser = localStorage.getItem('user')
@@ -139,8 +138,8 @@ else {
     location.href = '/login';
    }
 
-$('#navbar').load('navbar.html');
-$('#footer').load('footer.html');
+$('#navbar').load('${__dirname}/Public/navbar.html');
+$('#footer').load('${__dirname}/Public/footer.html');
 
 
 // app.use(function(req, res, next) {
