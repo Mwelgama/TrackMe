@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const base = `${__dirname}/Public`;
-app.use(express.static('public'));
+app.use(express.static('Public'));
 
 app.get('/', (req, res) => {
     res.sendFile(`${base}/device-list.html`);
