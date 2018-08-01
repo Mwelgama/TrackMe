@@ -1,10 +1,12 @@
 const API_URL = 'https://216122306-sit-209.now.sh/api';
 
 const currentUser = localStorage.getItem('user')
+console.log(currentUser);
 if (currentUser) {
  $.get(`${API_URL}/users/${currentUser}/devices`)
  .then(response => {
  response.forEach((device) => {
+     console.log(device);
 
  $('#devices tbody').append(`
  <tr data-device-id=${device._id}>
@@ -137,9 +139,9 @@ else {
     localStorage.removeItem('user');
     location.href = '/login';
    }
-
-$('#navbar').load('${__dirname}/Public/navbar.html');
-$('#footer').load('${__dirname}/Public/footer.html');
+console.log("beforeNav")
+$('#navbar').load('navbar.html');
+$('#footer').load('footer.html');
 
 
 // app.use(function(req, res, next) {
