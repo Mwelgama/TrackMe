@@ -98,14 +98,21 @@ else {
         deviceId,
         command
     }
+    var choice = confirm("Are you sure you want to send command?")
+    if (choice == true){
     $.post(`${MQTT_URL}/send-command`,body)
     .then(response  => {
+        alert("Command Sent Succesfully!");
         location.href = "/send-command"
     })
     .catch(error => {
         console.log(`Error: ${error}`);
     }
-    )});
+    )}
+    else {
+        $('#commandCancel').append('<p class="alert alert-danger" style="font-style: italic"> ERROR: Command Cancelled </p>')
+    };
+});
 
    $('#RegisterCreate').on('click', function() {
     const user = $('#userName').val();
