@@ -29,7 +29,7 @@ if (currentUser) {
             <td>${sensorData.loc.lon}</td>
             </tr>
             `);
-           });
+           }); 
            $('#historyModal').modal('show');           
     });
    });
