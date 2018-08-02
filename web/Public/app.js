@@ -1,4 +1,5 @@
 const API_URL = 'https://216122306-sit-209.now.sh/api';
+const MQTT_URL = 'https://216122306-mqtt.now.sh'
 
 const currentUser = localStorage.getItem('user')
 console.log(currentUser);
@@ -92,8 +93,19 @@ else {
 
     $('#send-command').on('click', function() {
     const command = $('#command').val();
-    console.log(`command is: ${command}`);
-   });
+    const deviceId = $('#deviceId').val();
+    const body = {
+        deviceId,
+        command
+    }
+    $.post(`${MQTT_URL}/send-command`,body)
+    .then(response  => {
+        location.href = "/send-command"
+    })
+    .catch(error => {
+        console.log(`Error: ${error}`);
+    }
+    )});
 
    $('#RegisterCreate').on('click', function() {
     const user = $('#userName').val();
@@ -144,8 +156,3 @@ $('#navbar').load('navbar.html');
 $('#footer').load('footer.html');
 
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-RequestedWith,Content-Type, Accept");
-//     next();
-//    });

@@ -157,11 +157,6 @@ app.get('/api/devices', (req, res) => {
    })
  });
 
- app.post('/api/send-command', (req,res) => {
-    //  const command = 
-     console.log(req.body);
- })
-
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
