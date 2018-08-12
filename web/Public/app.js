@@ -1,4 +1,5 @@
 const API_URL = 'https://216122306-sit-209.now.sh/api';
+// const API_URL = "http://localhost:5000/api"
 const MQTT_URL = 'https://216122306-mqtt.now.sh'
 
 const currentUser = localStorage.getItem('user')

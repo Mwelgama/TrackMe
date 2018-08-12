@@ -1,18 +1,23 @@
 const mqtt = require('mqtt');
 const express = require('express');
+const mongoose = require('mongoose');
+const randomCoordinates = require('random-coordinates');
+const rand = require('random-int');
+const Device = require('./models/device');
 const bodyParser = require('body-parser');
 const app = express();
 const { URL, USER, PASSWORD } = process.env;
 const port = process.env.PORT || 5001;
+mongoose.connect(process.env.MONGO_URL);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
  extended: true
 }));
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-RequestedWith,Content-Type, Accept");
-    next();
-   });
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-RequestedWith,Content-Type, Accept");
+//     next();
+//    });
 
 const client = mqtt.connect(URL, {
  username: USER,
@@ -20,8 +25,52 @@ const client = mqtt.connect(URL, {
 });
 
 client.on('connect', () => {
+    client.subscribe('/sensorData');
  console.log('mqtt connected');
 });
+
+app.put('/sensor-data', (req, res) => {
+    const { deviceId } = req.body;
+    const [lat, lon] = randomCoordinates().split(", ");
+    const ts = new Date().getTime();
+    const loc = { lat, lon };
+    const temp = rand(20, 50);
+    const topic = `/sensorData`;
+    const message = JSON.stringify({ deviceId, ts, loc, temp });
+    client.publish(topic, message, () => {
+    res.send('published new message');
+    });
+   });
+
+
+client.on('message', (topic, message) => {
+    if (topic == '/sensorData') {
+    const data = JSON.parse(message);
+   
+    Device.findOne({"name": data.deviceId }, (err, device) => {
+    if (err) {
+    console.log(err)
+    }
+    
+    const { sensorData } = device;
+    const { ts, loc, temp } = data;
+    sensorData.push({ ts, loc, temp });
+    device.sensorData = sensorData;
+    device.save(err => {
+    if (err) {
+    console.log(err)
+    }
+    });
+    });
+}
+});
+
+
+// client.on('message', (topic, message) => {
+//     if (topic == '/sensorData') {
+//     console.log(`Received message: ${message}`);
+//     }
+//    });
 app.post('/send-command', (req, res) => {
     const { deviceId, command } = req.body;
     const topic = `/command/${deviceId}`;
