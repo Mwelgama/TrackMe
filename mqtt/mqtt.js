@@ -28,6 +28,41 @@ client.on('connect', () => {
     client.subscribe('/sensorData');
  console.log('mqtt connected');
 });
+/**
+* @api {put} /sensor-data add extra sensor data to a user
+* @mqttGroup Data
+* @apiSuccessExample {json} Success-Response:
+* [
+* {
+* "_id": "dsohsdohsdofhsofhosfhsofh",
+* "name": "Mary's iPhone",
+* "user": "mary",
+* "sensorData": [
+* {
+* "ts": "1529542230",
+* "temp": 12,
+* "loc": {
+* "lat": -37.84674,
+* "lon": 145.115113
+* }
+* },
+* {
+* "ts": "1529572230",
+* "temp": 17,
+* "loc": {
+* "lat": -37.850026,
+* "lon": 145.117683
+* }
+* }
+* ]
+* }
+* ]
+* @apiErrorExample {json} Error-Response:
+* {
+* "User does not exist"
+* }
+*/
+
 
 app.put('/sensor-data', (req, res) => {
     const { deviceId } = req.body;
